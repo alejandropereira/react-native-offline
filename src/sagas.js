@@ -1,5 +1,6 @@
 /* @flow */
 
+import { delay } from 'redux-saga'
 import { put, select, call, take, cancelled, fork } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 import { NetInfo } from 'react-native';
@@ -131,6 +132,9 @@ function* handleConnectivityChange(
     // eslint-disable-next-line
     for (const action of actionQueue) {
       yield put(action);
+      if (action.meta.delay){
+        yield delay(action.meta.delay)
+      }
     }
   }
 }
